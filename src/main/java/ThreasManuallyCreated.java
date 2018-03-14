@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Main {
+public class ThreasManuallyCreated {
 
   public static void main(String[] args) {
     List<Thread> listOfRunners = new ArrayList<>();
@@ -25,7 +25,8 @@ public class Main {
     do {
       numberOfRunnersStillRunning = howManyRunnersStillRunning(listOfRunners);
       System.out.println("We have " + numberOfRunnersStillRunning + " running threads. ");
-    } while (numberOfRunnersStillRunning > 0);
+    }
+    while (numberOfRunnersStillRunning > 0);
   }
 
   private static int howManyRunnersStillRunning(List<Thread> listOfRunners) {
