@@ -1,5 +1,9 @@
+package threads;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import tasks.MyRunnable;
 
 public class ThreasManuallyCreated {
 

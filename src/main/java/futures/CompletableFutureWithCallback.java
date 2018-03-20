@@ -1,30 +1,32 @@
+package futures;
+
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
-public class CallableAndCompletableFuture {
+public class CompletableFutureWithCallback {
 
   public static void main(String[] args) {
     long startedAtMillis = System.currentTimeMillis();
 
-    CompletableFuture<Integer> futureCount = getSuppliedCompletableFutureCount();
+    CompletableFuture<Integer> futureCount = getSuppliedCompletableFutureCount().thenApply((Integer count) -> {
+      System.out.println("i am in the thenApply. Doubled Count is: " + count * 2);
+      return count * 2;
+    });
 
     System.out.println("Start FutureCount  Took " + (System.currentTimeMillis() - startedAtMillis) + " milliseconds");
 
-    waitForFutureCountcompletionAndPrintResult(startedAtMillis, futureCount);
+    waitForFutureCountcompletionAndPrintResult(futureCount);
 
+    System.out.println("at the end of main");
 
   }
 
-
-  private static void waitForFutureCountcompletionAndPrintResult(long startedAtMillis,
-      CompletableFuture<Integer> futureCount) {
+  private static void waitForFutureCountcompletionAndPrintResult(CompletableFuture<Integer> futureCount) {
     try {
-      int count = futureCount.get();
-      System.out.println("CompletableFuture took " + (System.currentTimeMillis() - startedAtMillis) + " milliseconds");
-      System.out.println("Result " + count);
+      System.out.println("Result: " + futureCount.get());
     }
-    catch (InterruptedException | ExecutionException ex) {
-      // Exceptions from the future should be handled here
+    catch (InterruptedException | ExecutionException e) {
+
     }
   }
 
@@ -33,6 +35,7 @@ public class CallableAndCompletableFuture {
       try {
         // simulate long running task
         Thread.sleep(5000);
+        System.out.println("after 5 seconds");
       }
       catch (InterruptedException e) {
       }
