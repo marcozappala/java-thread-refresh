@@ -8,11 +8,9 @@ import java.util.concurrent.Future;
 
 public class CallableAndFuture {
 
-  private static final int MAX_NUM_THREADS = 10;
-
   public static void main(String[] args) {
     ExecutorService executor = Executors.newFixedThreadPool(10);
-    List<Future<Long>> list = getListOfFutureTasks(500, executor);
+    List<Future<Long>> list = getListOfSubmittedFutureTasks(500, executor);
     int sum = 0;
     System.out.println(list.size());
     for (Future<Long> future : list) {
@@ -31,7 +29,7 @@ public class CallableAndFuture {
 
   }
 
-  private static List<Future<Long>> getListOfFutureTasks(int numberOfCallables, ExecutorService executorService) {
+  private static List<Future<Long>> getListOfSubmittedFutureTasks(int numberOfCallables, ExecutorService executorService) {
     List<Future<Long>> listOfLongFutures = new ArrayList<>();
     for (int i = 0; i < numberOfCallables; i++) {
       Callable task = new MyCallable(100000L + i);
