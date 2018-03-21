@@ -9,6 +9,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 import tasks.CallableUsingCounter;
 import tasks.Counter;
@@ -17,22 +18,25 @@ public class CounterAlgorithm {
 
   Counter counter;
 
-  public CounterAlgorithm(Counter counter) {
+  final int max;
+
+  public CounterAlgorithm(Counter counter, int max) {
     this.counter = counter;
+    this.max = max > 0 ? max : 1;
   }
 
   public void count() {
     List<Future<Integer>> listOfFutures = new ArrayList<>();
     ExecutorService executorService = Executors.newFixedThreadPool(10);
 
-    for (int i = 0; i < 500; i++) {
+    for (int i = 0; i < this.max; i++) {
       Callable<Integer> task = new CallableUsingCounter(counter);
       listOfFutures.add(executorService.submit(task));
     }
 
     executorService.shutdown();
 
-    waitUntilExecutorEndAllSubmittedTasks(executorService);
+    waitUntilExecutorEndsAllSubmittedTasks(executorService);
 
     verifiesNoDoubleEntriesInCalculatedIntegers(listOfFutures);
   }
@@ -55,8 +59,12 @@ public class CounterAlgorithm {
     }
   }
 
-  private static void waitUntilExecutorEndAllSubmittedTasks(ExecutorService executorService) {
-    while (!executorService.isTerminated()) {
+  private static void waitUntilExecutorEndsAllSubmittedTasks(ExecutorService executorService) {
+    try {
+      executorService.awaitTermination(10000, TimeUnit.MILLISECONDS);
+    }
+    catch (InterruptedException e) {
+      e.printStackTrace();
     }
   }
 }

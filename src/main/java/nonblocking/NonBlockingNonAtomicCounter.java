@@ -6,7 +6,7 @@ public class NonBlockingNonAtomicCounter {
 
   public static void main(String[] args) {
     NonAtomicCounter counter = new NonAtomicCounter();
-    CounterAlgorithm counterAlgorithm = new CounterAlgorithm(counter);
+    CounterAlgorithm counterAlgorithm = new CounterAlgorithm(counter, 50);
     counterAlgorithm.count();
   }
 }
