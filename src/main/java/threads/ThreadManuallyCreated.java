@@ -5,7 +5,7 @@ import java.util.List;
 
 import tasks.MyRunnable;
 
-public class ThreasManuallyCreated {
+public class ThreadManuallyCreated {
 
   public static void main(String[] args) {
     List<Thread> listOfRunners = new ArrayList<>();
