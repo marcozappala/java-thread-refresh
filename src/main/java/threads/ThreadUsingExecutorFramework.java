@@ -11,7 +11,7 @@ public class ThreadUsingExecutorFramework {
   private static final int MAX_NUM_THREADS = 10;
 
   public static void main(String[] args) {
-    ExecutorService executor = Executors.newFixedThreadPool(10);
+    ExecutorService executor = Executors.newFixedThreadPool(MAX_NUM_THREADS);
     executeRunnables(500, executor);
     executor.shutdown();
     try {

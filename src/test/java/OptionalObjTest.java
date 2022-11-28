@@ -10,7 +10,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 
 
 /**
- * Test well known java behaviour, just to refresh together with enhance testing skills
+ * Test well known java behaviour, just to refresh together with enhancing testing skills
  */
 @RunWith(MockitoJUnitRunner.class)
 public class OptionalObjTest {

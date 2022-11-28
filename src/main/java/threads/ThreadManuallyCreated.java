@@ -8,9 +8,12 @@ import tasks.MyRunnable;
 public class ThreadManuallyCreated {
 
   public static void main(String[] args) {
-    List<Thread> listOfRunners = new ArrayList<>();
-    listOfRunners = getListOfRunnersForMyRunnable(500);
-    printNumberOfRunnerStillRunningIfAny(listOfRunners);
+    List<Thread> listOfRunners = getListOfRunnersForMyRunnable(500);
+    Thread observer = createRunnerForTask(000, new Observer(listOfRunners));
+
+    listOfRunners.stream().forEach(runner -> runner.start());
+    observer.start();
+
     System.out.println("main finished");
   }
 
@@ -24,30 +27,32 @@ public class ThreadManuallyCreated {
     return listOfRunners;
   }
 
-  private static void printNumberOfRunnerStillRunningIfAny(List<Thread> listOfRunners) {
-    int numberOfRunnersStillRunning = 0;
-    do {
-      numberOfRunnersStillRunning = howManyRunnersStillRunning(listOfRunners);
-      System.out.println("We have " + numberOfRunnersStillRunning + " running threads. ");
-    }
-    while (numberOfRunnersStillRunning > 0);
-  }
 
-  private static int howManyRunnersStillRunning(List<Thread> listOfRunners) {
-    int numberOfRunnersStillRunning;
-    numberOfRunnersStillRunning = 0;
-    for (Thread worker : listOfRunners) {
-      if (worker.isAlive()) {
-        numberOfRunnersStillRunning++;
-      }
-    }
-    return numberOfRunnersStillRunning;
-  }
 
   private static Thread createRunnerForTask(int i, Runnable task) {
     Thread runner = new Thread(task);
     runner.setName(String.valueOf(i));
-    runner.start();
     return runner;
   }
+}
+
+
+class Observer implements Runnable{
+
+  List<Thread> listOfRunners;
+  public Observer(List<Thread> listOfRunners) {
+    this.listOfRunners = listOfRunners;
+  }
+
+  @Override
+  public void run() {
+    while (anyRunnerAlive()){
+      System.out.println("We have some running threads. ");
+    }
+  }
+
+  private boolean anyRunnerAlive() {
+    return this.listOfRunners.stream().anyMatch(Thread::isAlive);
+  }
+
 }
