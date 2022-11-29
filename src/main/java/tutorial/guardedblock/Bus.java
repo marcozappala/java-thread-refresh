@@ -25,7 +25,7 @@ public class Bus {
      * Invoking wait inside a synchronized method is a simple way to acquire the intrinsic lock.
      *
      */
-    public synchronized String fetchOneMessage() {
+    public synchronized String fetchOneMessage() { // like a take() method of a BlockingQueue
         // Wait until message is
         // available.
         while (PRODUCER.equals(this.owner)) {
@@ -42,7 +42,7 @@ public class Bus {
         return message;
     }
 
-    public synchronized void sendOneMessage(String message) {
+    public synchronized void sendOneMessage(String message) { // like a put(m) method of a BlockingQueue
         while (CONSUMER.equals(this.owner)) {
             try {
                 wait();
