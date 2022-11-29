@@ -46,7 +46,10 @@ public class Deadlock {
 
         alphonseThread.start();
 //        If we introduce a delay on the start of the two, the deadlock disappear
-//        cause alphonse thread acquire/release the lock before gaston asks for it
+//        cause alphonse thread acquire the lock on himself and then acquires
+//        the lock on the bower (on gaston object) at:
+//          bower.bowBack(this);
+//        before gaston acquires its lock on himself
 //        try {
 //            sleep(10);
 //        } catch (InterruptedException e) {
