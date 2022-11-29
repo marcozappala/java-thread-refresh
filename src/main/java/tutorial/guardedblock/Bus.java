@@ -6,6 +6,7 @@ import static tutorial.guardedblock.Bus.OWNER.PRODUCER;
 
 /**
  * There are several data structure already thread safe. This is a simple implementation example!
+ * (this Bus should be like a BlockingQueue with a max size of 1 message at a time)
  */
 public class Bus {
     enum OWNER{
